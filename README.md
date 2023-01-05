@@ -1,6 +1,6 @@
-# bmi
+# BMI Calculator
 
-Calculator
+Info about gender, height, weight, age
 
 ## Getting Started
 
