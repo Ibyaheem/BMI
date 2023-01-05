@@ -1,7 +1,18 @@
+import 'dart:math';
+
+import 'package:bmi/result/result.dart';
 import 'package:flutter/material.dart';
 
-class BMICalculator extends StatelessWidget {
-  const BMICalculator({Key? key}) : super(key: key);
+class BMICalculator extends StatefulWidget {
+  @override
+  State<BMICalculator> createState() => _BMICalculatorState();
+}
+
+class _BMICalculatorState extends State<BMICalculator> {
+  bool isMale = true;
+  double height = 120;
+  int weight = 40;
+  int age = 20;
 
   @override
   Widget build(BuildContext context) {
@@ -22,32 +33,39 @@ class BMICalculator extends StatelessWidget {
               child: Row(
                 children: [
                   Expanded(
-                    child: Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image(
-                            image: AssetImage('assets/male.png'),
-                            height: 90.0,
-                            width: 90.0,
-                          ),
-                          SizedBox(
-                            height: 15.0,
-                          ),
-                          Text(
-                            'Male',
-                            style: TextStyle(
-                              fontSize: 25.0,
-                              fontWeight: FontWeight.bold,
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          isMale = true;
+                        });
+                      },
+                      child: Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image(
+                              image: AssetImage('assets/male.png'),
+                              height: 90.0,
+                              width: 90.0,
                             ),
-                          ),
-                        ],
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(
-                          10.0,
+                            SizedBox(
+                              height: 15.0,
+                            ),
+                            Text(
+                              'Male',
+                              style: TextStyle(
+                                fontSize: 25.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
-                        color: Colors.grey[400],
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                            10.0,
+                          ),
+                          color: isMale ? Colors.blue : Colors.grey[400],
+                        ),
                       ),
                     ),
                   ),
@@ -55,32 +73,39 @@ class BMICalculator extends StatelessWidget {
                     width: 20.0,
                   ),
                   Expanded(
-                    child: Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image(
-                            image: AssetImage('assets/female.jpg'),
-                            height: 90.0,
-                            width: 90.0,
-                          ),
-                          SizedBox(
-                            height: 15.0,
-                          ),
-                          Text(
-                            'Female',
-                            style: TextStyle(
-                              fontSize: 25.0,
-                              fontWeight: FontWeight.bold,
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          isMale = false;
+                        });
+                      },
+                      child: Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image(
+                              image: AssetImage('assets/female.jpg'),
+                              height: 90.0,
+                              width: 90.0,
                             ),
-                          ),
-                        ],
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(
-                          10.0,
+                            SizedBox(
+                              height: 15.0,
+                            ),
+                            Text(
+                              'Female',
+                              style: TextStyle(
+                                fontSize: 25.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
-                        color: Colors.grey[400],
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                            10.0,
+                          ),
+                          color: !isMale ? Colors.blue : Colors.grey[400],
+                        ),
                       ),
                     ),
                   ),
@@ -116,7 +141,7 @@ class BMICalculator extends StatelessWidget {
                       textBaseline: TextBaseline.alphabetic,
                       children: [
                         Text(
-                          '180',
+                          '${height.round()}',
                           style: TextStyle(
                             fontSize: 40.0,
                             fontWeight: FontWeight.w900,
@@ -135,10 +160,13 @@ class BMICalculator extends StatelessWidget {
                       ],
                     ),
                     Slider(
-                        value: 120.0,
+                        value: height,
                         max: 220.0,
                         min: 80.0,
                         onChanged: (value) {
+                          setState(() {
+                            height = value;
+                          });
                           print(value.round());
                         }),
                   ],
@@ -163,14 +191,14 @@ class BMICalculator extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Age',
+                            'Weight',
                             style: TextStyle(
                               fontSize: 25.0,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           Text(
-                            '180',
+                            '${weight}',
                             style: TextStyle(
                               fontSize: 40.0,
                               fontWeight: FontWeight.w900,
@@ -180,18 +208,28 @@ class BMICalculator extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               FloatingActionButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  setState(() {
+                                    weight--;
+                                  });
+                                },
                                 mini: true,
                                 child: Icon(
                                   Icons.remove,
                                 ),
+                                heroTag: 'weight-',
                               ),
                               FloatingActionButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  setState(() {
+                                    weight++;
+                                  });
+                                },
                                 mini: true,
                                 child: Icon(
                                   Icons.add,
                                 ),
+                                heroTag: 'weight+',
                               ),
                             ],
                           ),
@@ -221,7 +259,7 @@ class BMICalculator extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            '180',
+                            '${age}',
                             style: TextStyle(
                               fontSize: 40.0,
                               fontWeight: FontWeight.w900,
@@ -231,18 +269,28 @@ class BMICalculator extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               FloatingActionButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  setState(() {
+                                    age--;
+                                  });
+                                },
                                 mini: true,
                                 child: Icon(
                                   Icons.remove,
                                 ),
+                                heroTag: 'age-',
                               ),
                               FloatingActionButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  setState(() {
+                                    age++;
+                                  });
+                                },
                                 mini: true,
                                 child: Icon(
                                   Icons.add,
                                 ),
+                                heroTag: 'age+',
                               ),
                             ],
                           ),
@@ -259,7 +307,20 @@ class BMICalculator extends StatelessWidget {
             color: Colors.blue,
             child: MaterialButton(
               height: 50.0,
-              onPressed: () {},
+              onPressed: () {
+                double result = weight / pow(height / 100, 2);
+                print(result.round());
+
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BMIResult(
+                        age: age,
+                        isMale: isMale,
+                        result: result.round(),
+                      ),
+                    ));
+              },
               child: Text(
                 'Calculate',
                 style: TextStyle(color: Colors.white),
