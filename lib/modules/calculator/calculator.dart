@@ -1,7 +1,8 @@
 import 'dart:math';
 
-import 'package:bmi/result/result.dart';
 import 'package:flutter/material.dart';
+
+import '../result/result.dart';
 
 class BMICalculator extends StatefulWidget {
   @override
